@@ -1,0 +1,16 @@
+{
+    "admin": [
+        {"label": "Delivery Items", "link": "/items"}, 
+        {"label":"Update Credentials", "link": "/update-details"}, 
+        {"label":"Analytics", "link":"/analytics"}
+    ],
+    "user": [
+        {"label": "Orders", "link": "/orders"}, 
+        {"label":"Analytics", "link":"/analytics"}
+    ],
+    "rider": [
+        {"label": "Orders", "link": "/orders"}, 
+        {"label":"Analytics", "link":"/analytics"}
+    ]
+}
+

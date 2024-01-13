@@ -1,0 +1,12 @@
+ {
+    "AdminRejected": {"status": -1 },
+    "RiderCancelled": { "status": 0 },
+    "Pending": {  "status": 1 },
+    "AdminAccepted": {  "status": 2 },
+    "RiderAccepted": { "status": 3, "label": "Accept", "flag": "rider", "icon":"MdOutlineDeliveryDining"},
+    "Picked Up": { "status": 4 ,"label": "Pick Up", "icon": "GiAirplaneArrival"},
+    "Takeaway Success": {"status": 5, "label": "Takeaway Success", "icon": "BiMobileAlt" }
+}
+
+
+

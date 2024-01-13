@@ -1,0 +1,11 @@
+{
+    "jwellery": {
+        "discountPerUnitPrice": 10
+    },
+    "document": {
+        "discountPerUnitPrice": 10
+    },
+    "furniture": {
+        "discountPerUnitPrice": 10
+    }
+}
