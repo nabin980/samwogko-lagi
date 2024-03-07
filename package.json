@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "cors": "^2.8.5",
-    "nodemailer": "^6.9.1"
+    "nodemailer": "^6.9.1",
+    "yup": "^1.4.0"
   }
 }
