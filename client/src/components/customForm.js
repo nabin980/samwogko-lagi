@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import { CustomButton } from "./customButton";
 import axios from "axios";
+import * as Yup from 'yup';
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import priceMap from "../config/priceMap.json";
@@ -24,10 +25,38 @@ const CustomForm = (props) => {
 
   toast.success(JSON.stringify(props.orderLists));
 
+  const MessagesSchema = Yup.object().shape({
+
+    productName : Yup.string()
+      .min(3, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Required'),
+      
+      pickupDate : Yup.date()
+      .required('Required'),
+
+      pickupTime : Yup.string()
+      .required('Required'),
+
+      weight : Yup.string()
+      .matches(/^[0-9]+kg$/, 'Weight must be a number')
+      .required('Required'),
+
+      unitItems : Yup.string()
+      .matches(/^[0-9]+$/, 'Items must be a number')
+      .required('Required'),
+
+      maxLength : Yup.string()
+      .matches(/^[0-9]+m$/, 'Length must be a number')
+
+
+  });
+ 
   return (
     <Formik
       initialValues={props.orderList || {}}
-      onSubmit={async (values, { resetForm }) => {
+      validationSchema={MessagesSchema}
+      onSubmit={async (values, { resetForm, }) => {
         if (formStep <= 2) {
           setFormStep(formStep + 1);
         } else {
@@ -48,7 +77,7 @@ const CustomForm = (props) => {
             window.location.reload();
           } catch (error) {
             console.error(error);
-            // Handle errors if needed
+           
           }
         }
 
@@ -56,8 +85,10 @@ const CustomForm = (props) => {
         const finalPrice = weight * unitItems * props.basePrice * distance;
         setTotalPrice(finalPrice - ((finalPrice * priceMap[props.categoryName].discountPerUnitPrice) / 100));
       }}
+
+      
     >
-      {({ errors, touched }) => (
+      {({ errors, touched, setFieldValue, setFieldTouched  }) => (
         <div
           style={{
             display: "flex",
@@ -65,7 +96,7 @@ const CustomForm = (props) => {
             justifyContent: "center",
           }}
         >
-          {/* Render the form only if formSubmitted state is false */}
+         
           {!formSubmitted && (
             <Form>
               {formStep === 1 ? (
@@ -75,10 +106,27 @@ const CustomForm = (props) => {
                       <Field
                         name={item}
                         placeholder={item}
+                        onChange={(e) => {
+                          let value = e.target.value;
+                      
+                          if (item === 'weight') {
+                            
+                            value = value.replace(/\D/g, '');
+                            setFieldValue(item, `${value}kg`);
+                          } else if (item === 'maxLength') {
+                            
+                            value = value.replace(/\D/g, '');
+                            setFieldValue(item, `${value}m`);
+                          } else {
+                            setFieldValue(item, value);
+                          }
+                        
+                        }}
+                        
                         type={item === "password" ? "password" : item === "pickupDate" ? 'date' : item === "pickupTime" ? 'time' : "text"}
                       />
                       {errors[item] && touched[item] ? (
-                        <div className="validation-message">{errors[item]}</div>
+                        <div>{errors[item]}</div>
                       ) : null}
                     </div>
                   ))}
@@ -103,7 +151,7 @@ const CustomForm = (props) => {
                         type={item === "password" ? "password" : "text"}
                       />
                       {errors[item] && touched[item] ? (
-                        <div className="validation-message">{errors[item]}</div>
+                        <div>{errors[item]}</div>
                       ) : null}
                     </div>
                   ))}
@@ -118,10 +166,10 @@ const CustomForm = (props) => {
             </Form>
           )}
 
-          {/* Show a success message or take additional actions when the form is submitted */}
+         
           {formSubmitted && (
             <div className="success-message">
-              al
+              <p>Sucessfully submitted</p>
             </div>
           )}
         </div>
